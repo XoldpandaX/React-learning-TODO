@@ -1,0 +1,11 @@
+.todo-list {
+  margin: 20px auto;
+  padding: 0;
+  list-style: none;
+}
+
+.todo-list__li-el {
+  margin-bottom: 5px;
+  padding: 8px 10px;
+  border: 1px solid gainsboro;
+}
