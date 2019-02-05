@@ -8,6 +8,8 @@ import ItemAddForm from '../item-add-form';
 import './app.css';
 
 export default class App extends Component {
+  maxId = 100;
+  
   state = {
     todoData: [
       {
@@ -28,18 +30,18 @@ export default class App extends Component {
     ]
   };
   
-  deleteTodo = (todoId) => this.setState((state) => (
-    { todoData: state.todoData.filter((todo) => todo.id !== todoId) }
+  deleteTodo = (todoId) => this.setState(({ todoData }) => (
+    { todoData: todoData.filter((todo) => todo.id !== todoId) }
   ));
   
-  addNewTodo = () => this.setState((state) => {
+  addNewTodo = (text) => this.setState(({ todoData }) => {
     return (
       { todoData:
-          [...state.todoData,
+          [...todoData,
             {
-              id: state.todoData.length + 1,
-              text: 'hulina',
-              important: true
+              id: this.maxId++,
+              text,
+              important: false
             }
           ]
       }
@@ -57,7 +59,7 @@ export default class App extends Component {
           todos={ todoData }
           onDeleted={ this.deleteTodo }
         />
-        <ItemAddForm onAddNewItem={ this.addNewTodo }/>
+        <ItemAddForm onAddNewItem={ () => this.addNewTodo('fuck you') }/>
       </div>
     );
   }
