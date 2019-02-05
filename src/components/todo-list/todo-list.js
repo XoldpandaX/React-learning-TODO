@@ -3,9 +3,8 @@ import React from 'react';
 import TodoListItem from '../todo-list-item';
 import './todo-list.css';
 
-const TodoList = ({ todos }) => {
+const TodoList = ({ todos, onDeleted }) => {
   const listElements = todos.map((todo) => {
-  
     const { id, ...todoProps } = todo;
     
     return (
@@ -13,15 +12,20 @@ const TodoList = ({ todos }) => {
         className='todo-list__li-el'
         key={ id }
       >
-        <TodoListItem { ...todoProps } />
+        <TodoListItem
+          { ...todoProps }
+          onDeleted={ () => onDeleted(id) }
+        />
       </li>
     )
   });
   
   return (
-    <ul className="todo-list">
-      { listElements }
-    </ul>
+    <div>
+      <ul className="todo-list">
+        { listElements }
+      </ul>
+    </div>
   );
 };
 

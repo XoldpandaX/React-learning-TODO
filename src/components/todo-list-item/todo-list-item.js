@@ -8,31 +8,39 @@ export default class TodoListItem extends Component {
     important: false
   };
   
-  onTextClick = () => this.setState({ done: !this.done });
+  onTextClick = () => this.setState((state) => ({ done: !state.done }));
+  markImportant = () => this.setState((state) => ({ important: !state.important }));
   
   render () {
-    const { text } = this.props;
+    const { text, onDeleted } = this.props;
     const { done, important } = this.state;
     
     let classNames = 'todo-list-item';
-    if (done) { classNames = `${ classNames } todo-list-item--done` }
     
-    const spanStyle = important ? { color: 'tomato' } : { color: 'black' };
+    if (done) { classNames += ' todo-list-item--done' }
+    if (important) { classNames += ' todo-list-item--important' }
   
     return (
-      <div
-        className={ classNames }
-        onClick={ this.onTextClick }
-      >
+      <div className={ classNames }>
         <span
           className="todo-list-item__text"
-          style={ spanStyle }
+          onClick={ this.onTextClick }
         >
           { text }
         </span>
         <div className='todo-list-item__buttons'>
-          <button type='button'>del</button>
-          <button type='button'>mark</button>
+          <button
+            type='button'
+            onClick={ onDeleted }
+          >
+            del
+          </button>
+          <button
+            type='button'
+            onClick={ this.markImportant }
+          >
+            mark
+          </button>
         </div>
       </div>
     )
