@@ -3,17 +3,15 @@ import React, { Component } from 'react';
 import './todo-list-item.css';
 
 export default class TodoListItem extends Component {
-  state = {
-    done: false,
-    important: false
-  };
-  
-  onTextClick = () => this.setState((state) => ({ done: !state.done }));
-  markImportant = () => this.setState((state) => ({ important: !state.important }));
-  
   render () {
-    const { text, onDeleted } = this.props;
-    const { done, important } = this.state;
+    const {
+      text,
+      done,
+      important,
+      onDeleted,
+      clickTodoText,
+      clickMarkBtn
+    } = this.props;
     
     let classNames = 'todo-list-item';
     
@@ -24,7 +22,7 @@ export default class TodoListItem extends Component {
       <div className={ classNames }>
         <span
           className="todo-list-item__text"
-          onClick={ this.onTextClick }
+          onClick={ clickTodoText }
         >
           { text }
         </span>
@@ -37,7 +35,7 @@ export default class TodoListItem extends Component {
           </button>
           <button
             type='button'
-            onClick={ this.markImportant }
+            onClick={ clickMarkBtn }
           >
             mark
           </button>

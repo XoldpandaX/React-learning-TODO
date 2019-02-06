@@ -10,43 +10,55 @@ import './app.css';
 export default class App extends Component {
   maxId = 100;
   
+  createTodoItem = (text) => ({
+    id: this.maxId++,
+    text,
+    done: false,
+    important: false
+  });
+  
   state = {
     todoData: [
-      {
-        id: 1,
-        text: 'Drink Coffe',
-        important: false
-      },
-      {
-        id: 2,
-        text: 'Build React App',
-        important: true
-      },
-      {
-        id: 3,
-        text: 'Go To The Shop',
-        important: false
-      }
+      this.createTodoItem('Say hi to the World'),
+      this.createTodoItem('Make a kimchi'),
+      this.createTodoItem('Finish studying'),
+      this.createTodoItem('Drink cup of coffe'),
     ]
   };
+  
+  immutableUpdateStateArray = (stateData, updateItemIdx, newItem) => ([
+    ...stateData.slice(0, updateItemIdx),
+    newItem,
+    ...stateData.slice(updateItemIdx + 1)
+  ]);
+  
+  toggleDone = (todoId) => this.setState(({ todoData }) => {
+    const idx = todoData.findIndex((el) => el.id === todoId);
+    const oldTodo = todoData[idx];
+    const updateTodo = { ...oldTodo, done: !oldTodo.done };
+    
+    return ({
+      todoData: this.immutableUpdateStateArray(todoData, idx, updateTodo)
+    });
+  });
+  
+  toggleMark = (todoId) => this.setState(({ todoData }) => {
+    const idx = todoData.findIndex((todo) => todo.id === todoId);
+    const oldTodo = todoData[idx];
+    const updatedTodo = { ...oldTodo, important: !oldTodo.important };
+    
+    return ({
+      todoData: this.immutableUpdateStateArray(todoData, idx, updatedTodo)
+    });
+  });
   
   deleteTodo = (todoId) => this.setState(({ todoData }) => (
     { todoData: todoData.filter((todo) => todo.id !== todoId) }
   ));
   
-  addNewTodo = (text) => this.setState(({ todoData }) => {
-    return (
-      { todoData:
-          [...todoData,
-            {
-              id: this.maxId++,
-              text,
-              important: false
-            }
-          ]
-      }
-    );
-  });
+  addNewTodo = (text) => this.setState(({ todoData }) => (
+    { todoData: [...todoData, this.createTodoItem(text)] }
+  ));
   
   render() {
     const { todoData } = this.state;
@@ -58,6 +70,8 @@ export default class App extends Component {
         <TodoList
           todos={ todoData }
           onDeleted={ this.deleteTodo }
+          toggleDone={ this.toggleDone }
+          toggleMark={ this.toggleMark }
         />
         <ItemAddForm onAddNewItem={ () => this.addNewTodo('fuck you') }/>
       </div>
