@@ -60,21 +60,18 @@ export default class App extends Component {
     { todoData: [...todoData, this.createTodoItem(text)] }
   ));
   
-  todosToDone = () => this.state.todoData.filter((todo) => !todo.done).length;
-  
-  todosDone = () => this.state.todoData.filter((todo) => todo.done).length;
-  
-  isAllTodosDone = () => this.todosDone() === this.state.todoData.length;
-  
   render() {
     const { todoData } = this.state;
+    const todoDone = todoData.filter((todo) => todo.done).length;
+    const todoLeft = todoData.length - todoDone;
+    const isAllTodoDone = todoData.length === todoDone;
     
     return (
       <div className='app-container'>
         <AppHeader
-          todo={ this.todosToDone() }
-          done={ this.todosDone() }
-          isAllTodosDone={ this.isAllTodosDone() }
+          todo={ todoLeft }
+          done={ todoDone }
+          isAllTodoDone={ isAllTodoDone }
         />
         <SearchPanel />
         <TodoList

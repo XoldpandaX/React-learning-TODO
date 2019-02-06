@@ -1,7 +1,7 @@
 import React from 'react';
 
-const AppHeader = ({ todo, done, isAllTodosDone }) => {
-  const todoStatusDescription = isAllTodosDone
+const AppHeader = ({ todo, done, isAllTodoDone }) => {
+  const todoStatusDescription = isAllTodoDone
     ? <h2>all { done } todos done, congratulations !!!</h2>
     : <h2>{ todo } more to do, { done } done</h2>;
     
