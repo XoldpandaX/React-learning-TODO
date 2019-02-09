@@ -2,6 +2,11 @@
 
 }
 
+.item-add-from input {
+  margin-right: 10px;
+  height: 20px;
+}
+
 .item-add-from__btn {
   font-size: 18px;
   color: hotpink;

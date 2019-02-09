@@ -80,7 +80,7 @@ export default class App extends Component {
           toggleDone={ this.toggleDone }
           toggleMark={ this.toggleMark }
         />
-        <ItemAddForm onAddNewItem={ () => this.addNewTodo('fuck you') }/>
+        <ItemAddForm onAddNewItem={ this.addNewTodo }/>
       </div>
     );
   }

@@ -4,18 +4,35 @@ import './item-add-form.css';
 
 export default class ItemAddFrom extends Component {
   
-  render() {
-    const { onAddNewItem } = this.props;
+  state = {
+    inputText: ''
+  };
+  
+  onLabelChange = ({ target: { value } }) => {
+    this.setState({ inputText: value });
+  };
+  
+  onSubmit = (e) => {
+    e.preventDefault();
+    this.props.onAddNewItem(this.state.inputText);
     
+    this.setState({ inputText: '' });
+  };
+  
+  render() {
     return (
-      <div className='item-add-from'>
-        <button
-          className='item-add-from__btn'
-          onClick={ onAddNewItem }
-        >
-          add new item
-        </button>
-      </div>
+      <form
+        className='item-add-from'
+        onSubmit={ this.onSubmit }
+      >
+        <input
+          type='text'
+          placeholder='what needs to be done'
+          value={ this.state.inputText }
+          onChange={ this.onLabelChange }
+        />
+        <button className='item-add-from__btn'>add new item</button>
+      </form>
     );
   }
 }
