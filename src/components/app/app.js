@@ -64,16 +64,23 @@ export default class App extends Component {
   setTerm = (searchTerm) => this.setState({ term: searchTerm });
   
   search = (todoData, term) => {
-    if (!term) {
+    if (!term || term === 'All') {
       return todoData;
     }
     
-    return todoData.filter((todo) => {
-      const todoText = todo.text.toLowerCase();
-      const searchText = term.toLowerCase();
-      
-      return todoText.indexOf(searchText) !== - 1;
-    });
+    switch (term) {
+      case 'Active':
+        return todoData.filter((todo) => todo.important);
+      case 'Done':
+        return todoData.filter((todo) => todo.done);
+      default:
+        return todoData.filter((todo) => {
+          const todoText = todo.text.toLowerCase();
+          const searchText = term.toLowerCase();
+    
+          return todoText.indexOf(searchText) !== - 1;
+        });
+    }
   };
   
   render() {
@@ -83,7 +90,7 @@ export default class App extends Component {
     const todoDone = todoData.filter((todo) => todo.done).length;
     const todoLeft = todoData.length - todoDone;
     const isAllTodoDone = todoData.length === todoDone;
-    const isAddFormVisible = !this.state.term;
+    const isAddFormVisible = !this.state.term || this.state.term === 'All';
     
     return (
       <div className='app-container'>
@@ -92,7 +99,10 @@ export default class App extends Component {
           done={ todoDone }
           isAllTodoDone={ isAllTodoDone }
         />
-        <SearchPanel findTodo={ this.setTerm } />
+        <SearchPanel
+          findTodo={ this.setTerm }
+          changeFilter={ this.setTerm }
+        />
         <TodoList
           todos={ visibleTodoData }
           onDeleted={ this.deleteTodo }

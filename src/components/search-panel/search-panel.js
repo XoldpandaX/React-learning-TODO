@@ -4,7 +4,7 @@ import ItemStatusFilter from '../item-status-filter';
 
 import './search-panel.css';
 
-const SearchPanel = ({ findTodo }) => {
+const SearchPanel = ({ findTodo, changeFilter }) => {
   const searchText = 'search';
   const searchStyle = {
     fontSize: '25px'
@@ -22,7 +22,9 @@ const SearchPanel = ({ findTodo }) => {
         style={ searchStyle }
         onChange={ onChange }
       />
-      <ItemStatusFilter />
+      <ItemStatusFilter
+        onFilterChange={ changeFilter }
+      />
     </div>
   );
 };
