@@ -4,15 +4,24 @@ import ItemStatusFilter from '../item-status-filter';
 
 import './search-panel.css';
 
-const SearchPanel = () => {
+const SearchPanel = ({ findTodo }) => {
   const searchText = 'search';
   const searchStyle = {
     fontSize: '25px'
   };
   
+  const onChange = ({ target: { value } }) => {
+    findTodo(value);
+  };
+  
   return (
     <div className='search-panel'>
-      <input style={ searchStyle } type="text" placeholder={ searchText } />
+      <input
+        type="text"
+        placeholder={ searchText }
+        style={ searchStyle }
+        onChange={ onChange }
+      />
       <ItemStatusFilter />
     </div>
   );

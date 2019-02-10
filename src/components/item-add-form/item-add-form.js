@@ -20,9 +20,13 @@ export default class ItemAddFrom extends Component {
   };
   
   render() {
+    const { isVisible } = this.props;
+    const visibleStyle = isVisible ? null : { display: 'none' };
+    
     return (
       <form
         className='item-add-from'
+        style={ visibleStyle }
         onSubmit={ this.onSubmit }
       >
         <input

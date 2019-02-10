@@ -23,7 +23,8 @@ export default class App extends Component {
       this.createTodoItem('Make a kimchi'),
       this.createTodoItem('Finish studying'),
       this.createTodoItem('Drink cup of coffe'),
-    ]
+    ],
+    term: ''
   };
   
   immutableUpdateStateArray = (stateData, updateItemIdx, newItem) => ([
@@ -60,11 +61,29 @@ export default class App extends Component {
     { todoData: [...todoData, this.createTodoItem(text)] }
   ));
   
+  setTerm = (searchTerm) => this.setState({ term: searchTerm });
+  
+  search = (todoData, term) => {
+    if (!term) {
+      return todoData;
+    }
+    
+    return todoData.filter((todo) => {
+      const todoText = todo.text.toLowerCase();
+      const searchText = term.toLowerCase();
+      
+      return todoText.indexOf(searchText) !== - 1;
+    });
+  };
+  
   render() {
-    const { todoData } = this.state;
+    const { todoData, term } = this.state;
+    
+    const visibleTodoData = this.search(todoData, term);
     const todoDone = todoData.filter((todo) => todo.done).length;
     const todoLeft = todoData.length - todoDone;
     const isAllTodoDone = todoData.length === todoDone;
+    const isAddFormVisible = !this.state.term;
     
     return (
       <div className='app-container'>
@@ -73,14 +92,17 @@ export default class App extends Component {
           done={ todoDone }
           isAllTodoDone={ isAllTodoDone }
         />
-        <SearchPanel />
+        <SearchPanel findTodo={ this.setTerm } />
         <TodoList
-          todos={ todoData }
+          todos={ visibleTodoData }
           onDeleted={ this.deleteTodo }
           toggleDone={ this.toggleDone }
           toggleMark={ this.toggleMark }
         />
-        <ItemAddForm onAddNewItem={ this.addNewTodo }/>
+        <ItemAddForm
+          isVisible={ isAddFormVisible }
+          onAddNewItem={ this.addNewTodo }
+        />
       </div>
     );
   }
